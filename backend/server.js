@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const quizRoutes = require('./routes/quizRoutes');
+const userRoutes=require('./routes/userRoutes')
 
 // Load environment variables
 dotenv.config();
@@ -21,6 +22,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
   .catch((err) => console.log('Failed to connect to MongoDB', err));
 
 // Use quiz routes
+app.use("/api/users", userRoutes);
 app.use('/api', quizRoutes);
 
 // Start the server

@@ -4,7 +4,7 @@ import { getQuizById, submitQuiz } from '../api';
 
 const QuizPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [quiz, setQuiz] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -14,7 +14,7 @@ const QuizPage = () => {
       try {
         const data = await getQuizById(id);
         setQuiz(data);
-        setAnswers(new Array(data.questions.length).fill(''));
+        setAnswers(new Array(data.questions.length).fill('')); // Initialize answers array
       } catch (error) {
         console.error('Error fetching quiz:', error);
       }
@@ -57,7 +57,7 @@ const QuizPage = () => {
             <div key={index}>
               <input
                 type="radio"
-                name="answer"
+                name={`answer-${currentQuestionIndex}`}
                 value={choice}
                 checked={answers[currentQuestionIndex] === choice}
                 onChange={handleAnswerChange}
@@ -68,11 +68,19 @@ const QuizPage = () => {
         </div>
         <div className="mt-3">
           {currentQuestionIndex < quiz.questions.length - 1 ? (
-            <button onClick={handleNext} className="btn btn-primary">
+            <button
+              onClick={handleNext}
+              className="btn btn-primary"
+              disabled={!answers[currentQuestionIndex]} // Disable button if no answer is selected
+            >
               Next Question
             </button>
           ) : (
-            <button onClick={handleSubmit} className="btn btn-success">
+            <button
+              onClick={handleSubmit}
+              className="btn btn-success"
+              disabled={!answers[currentQuestionIndex]} 
+            >
               Submit Quiz
             </button>
           )}
@@ -82,4 +90,4 @@ const QuizPage = () => {
   );
 };
 
-export default QuizPage;
+export default QuizPage;             

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getQuizzes } from '../api';
 
+
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
 
